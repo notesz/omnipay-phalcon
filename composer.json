@@ -1,0 +1,24 @@
+{
+  "name" : "innobotics/omnipay-paypal-phalcon-test",
+  "description" : "Omnipay test",
+  "version" : "1.0.0",
+  "require" : {
+    "php" : ">=7.1.0",
+    "ext-phalcon" : ">=3.0.1",
+    "ext-pdo": "*",
+    "vlucas/phpdotenv": "v2.4.0",
+    "fabfuel/prophiler": "1.6.0",
+    "dariuszp/cli-progress-bar": "1.0.2",
+    "guzzlehttp/guzzle": "6.2.3",
+    "innobotics/imageresize" : "1.4.1",
+    "jimmiw/php-time-ago" : "2.0.2",
+    "league/omnipay" : "v3.0.2",
+    "omnipay/paypal" : "v3.0.2"
+  },
+  "authors" : [
+    { "name": "Norbert Lakatos", "email": "norbert@innobotics.eu" }
+  ],
+  "keywords" : [ "omnipay", "paypal", "phalcon" ],
+  "type" : "project",
+  "homepage" : "https://innobotics.eu"
+}
