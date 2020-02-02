@@ -1,12 +1,12 @@
-# Paypal based on Omnipay in Phalcon framework
+# PayPal based on Omnipay in Phalcon framework
 
-I've made a test site. It uses Omnipay and Paypal.
+I've made a test site. It uses Omnipay and PayPal.
 
 I have a skeleton and it based on Phalcon framework. If you use Phalcon it'll be similar.
 
 ## How can I made it
 
-To Paypal with Omnipay implementation I made these things:
+To PayPal with Omnipay implementation I made these things:
 
 ### Install Omnipay and Paypal with composer
 
@@ -20,7 +20,78 @@ To Paypal with Omnipay implementation I made these things:
 You can find my PayPal service here
 ``app/libraries/Paypal.php``
 
-I've added Paypal service to Dependency injection
+```php
+<?php
+
+namespace Skeleton\Library;
+
+/**
+ * Paypal.
+ *
+ * @copyright Copyright (c) 2020 innobotics (https://innobotics.eu)
+ * @author Norbert Lakatos <norbert@innobotics.eu>
+ */
+class Paypal
+{
+    const GATEWAY = 'PayPal_Express';
+
+    private $username;
+    private $password;
+    private $signature;
+    private $sandbox;
+
+    /**
+     * Paypal constructor.
+     * @param $username
+     * @param $password
+     * @param $signature
+     * @param $sandbox
+     */
+    public function __construct($username, $password, $signature, $sandbox = 0)
+    {
+        $this->username  = $username;
+        $this->password  = $password;
+        $this->signature = $signature;
+        $this->sandbox   = ($sandbox == 1) ? true : false;
+    }
+
+    /**
+     * @return \Omnipay\Common\GatewayInterface
+     */
+    public function gateway()
+    {
+        $gateway = \Omnipay\Omnipay::create(self::GATEWAY);
+
+        $gateway->setUsername($this->username);
+        $gateway->setPassword($this->password);
+        $gateway->setSignature($this->signature);
+        $gateway->setTestMode($this->sandbox);
+
+        return $gateway;
+    }
+
+    /**
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\ResponseInterface
+     */
+    public function purchase(array $parameters)
+    {
+        return $this->gateway()->purchase($parameters)->send();
+    }
+
+    /**
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\ResponseInterface
+     */
+    public function complete(array $parameters)
+    {
+        return $this->gateway()->completePurchase($parameters)->send();
+    }
+}
+
+```
+
+I've added PayPal service to Dependency injection
 
 ```php
 /**
@@ -46,9 +117,25 @@ You can find it in ``app/config/services.php``.
 
 As you see in the source code, I used some variables in config.
 
+```php
+    'paypal' => [
+        'username'  => \getenv('PAYPAL_USERNAME'),
+        'password'  => \getenv('PAYPAL_PASSWORD'),
+        'signature' => \getenv('PAYPAL_SIGNATURE'),
+        'sandbox'   => \getenv('PAYPAL_SANDBOX')
+    ],
+```
+
 You can find the config here: `/app/config/config.php`
 
-But I prefer .env. So you can find main settings in .env (.env.example) 
+But I prefer .env. So you can find main settings in .env (.env.example)
+
+```text
+PAYPAL_USERNAME=ab-cd123456789_api1.business.example.com
+PAYPAL_PASSWORD=ABCDEF567890WXYZ
+PAYPAL_SIGNATURE=AbcdefghijkLMNOPQ.s6d7s6d7s6d7s6d7QWERTZUIO34567890ABCDE
+PAYPAL_SANDBOX=1
+``` 
 
 ### Controller
 
