@@ -212,3 +212,10 @@ To create sandbox credentials
 5. Choose an Account Name and click "View/Edit account" (last column)
 6. Click the second tab (API Credentials)
 7. You can find your sandbox credentials under "NVP/SOAP Sandbox API Credentials"
+
+## TODO
+
+We have to handle IPN calls.
+
+We have to handle IPN calls. The source code doesn't contain it yet.
+
