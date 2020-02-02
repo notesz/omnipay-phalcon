@@ -149,6 +149,43 @@ You can find the router here:
 And you can find the PaypalController here:
 ``app/modules/frontend/controllers/PaypalController.php``
 
+The most important part is the checkout:
+```php
+    /**
+     * @param $orderId
+     * @return bool
+     */
+    public function checkoutAction($orderId)
+    {
+        $order = [
+            'id'     => $orderId,
+            'amount' => 10,
+        ];
+
+        $paypal = $this->di->get('paypal')->purchase([
+            'amount'        => number_format($order['amount'], 2, '.', ''),
+            'transactionId' => $order['id'],
+            'currency'      => 'HUF',
+            'returnUrl'     => $this->di->get('config')->base_url . '/paypal/success',
+            'cancelUrl'     => $this->di->get('config')->base_url . '/paypal/cancel',
+        ]);
+
+        if ($paypal->isRedirect()) {
+            $paypal->redirect();
+
+            return false;
+        }
+
+        $this->flash->error($paypal->getMessage());
+
+        return $this->response->redirect(
+            $this->url->get([
+                'for' => 'frontend-index',
+            ])
+        );
+    }
+```
+
 ## PayPal settings
 
 You need a Business account.
