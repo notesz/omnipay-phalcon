@@ -9,7 +9,7 @@
     "vlucas/phpdotenv": "v2.4.0",
     "fabfuel/prophiler": "1.6.0",
     "dariuszp/cli-progress-bar": "1.0.2",
-    "guzzlehttp/guzzle": "6.2.3",
+    "guzzlehttp/guzzle": "6.5.6",
     "innobotics/imageresize" : "1.4.1",
     "jimmiw/php-time-ago" : "2.0.2",
     "league/omnipay" : "v3.0.2",
